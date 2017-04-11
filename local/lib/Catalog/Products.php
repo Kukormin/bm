@@ -183,7 +183,7 @@ class Products
 			}
 
 			$prodId->Update($id, $item);
-			$prodId->SetPropertyValues($id,self::IBLOCK_ID,['PICTURES' => $files['images'],'FILES' => $files['files']]);
+
 		}
 		else
 		{
@@ -194,6 +194,8 @@ class Products
 			}
 			$prodId->Add($item);
 		}
+
+		$prodId->SetPropertyValues($id,self::IBLOCK_ID,['PICTURES' => $files['images'],'FILES' => $files['files']]);
 	}
 
 	private static function getItemSections($data)
