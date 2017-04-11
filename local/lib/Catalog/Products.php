@@ -145,7 +145,7 @@ class Products
 			$element = self::getByXmlId($item['XML_ID']);
 			if (!$element)
 			{
-				self::item($item);
+				self::item($item,$issetFiles);
 			}
 			else
 			{
