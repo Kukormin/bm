@@ -107,6 +107,7 @@ class Import
 								$files[] = [
 									'NAME' => $subAttrValues['ИмяФайла'],
 									'EXT' => $subAttrValues['Расширение'],
+								    'TYPE' => $subAttrValues['ТипФайла']
 								];
 							}
 						}
