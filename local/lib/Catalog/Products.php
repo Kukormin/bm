@@ -98,16 +98,14 @@ class Products
 					'DISABLED' => $item['PROPERTY_DISABLED_VALUE'] == 1,
 					'PICTURES' => $item['PROPERTY_PICTURES_VALUE'],
 					'FILES' => $item['PROPERTY_FILES_VALUE'],
-
 				];
-				$product['BY_XML_ID'][$item['XML_ID']] = $item['ID'];
 
 				foreach ($props['ITEMS'] as $prop)
 				{
 					$product['PROPS'][$prop['ID']] = $item['PROPERTY_' . $prop['ID'] . '_VALUE'];
 				}
-
-				$return[$item['ID']] = $product;
+				$return['BY_XML_ID'][$item['XML_ID']] = $item['ID'];
+				$return['ITEMS'][$item['ID']] = $product;
 			}
 
 			$extCache->endDataCache($return);
@@ -127,11 +125,12 @@ class Products
 	{
 		$all = self::getAll();
 
-		return $all[$id];
+		return $all['ITEMS'][$id];
 	}
 
 	public static function import($items)
 	{
+
 		$issetFiles = [];
 		$f = \CFile::GetList();
 
@@ -170,8 +169,6 @@ class Products
 			'MODEL' => Models::getByXmlId($item['MODEL']),
 			'COLOR' => Colors::getByXmlId($item['COLOR']),
 			'DISABLED' => $item['DISABLED'],
-			'PICTURES' => $files['images'],
-			'FILES' => $files['files'],
 		];
 		$prodId = new \CIBlockElement();
 
@@ -186,6 +183,7 @@ class Products
 			}
 
 			$prodId->Update($id, $item);
+			$prodId->SetPropertyValues($id,self::IBLOCK_ID,['PICTURES' => $files['images'],'FILES' => $files['files']]);
 		}
 		else
 		{
@@ -231,21 +229,25 @@ class Products
 				if (!$issetFiles[$file['NAME'] . '.' . $file['EXT']])
 				{
 					$fileId = \CFile::SaveFile($fileInfo, 'products');
+				}
+				else
+				{
+					$fileId = $issetFiles[$file['NAME'] . '.' . $file['EXT']];
+				}
 
-					if ($file['TYPE'] == '1')
-					{
-						$files['preview'] = \CFile::MakeFileArray(\CFile::GetPath($fileId));
-					}
+				if ($file['TYPE'] == '1')
+				{
+					$files['preview'] = \CFile::MakeFileArray(\CFile::GetPath($fileId));
+				}
 
-					if ($file['TYPE'] == '2')
-					{
-						$files['images'][] = $fileId;
-					}
+				if ($file['TYPE'] == '2')
+				{
+					$files['images'][] = $fileId;
+				}
 
-					if ($file['TYPE'] == '3')
-					{
-						$files['files'][] = $fileId;
-					}
+				if ($file['TYPE'] == '3')
+				{
+					$files['files'][] = $fileId;
 				}
 
 
