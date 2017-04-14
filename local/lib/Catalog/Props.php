@@ -274,7 +274,7 @@ class Props
 		$all = self::getAll();
 		$return = [];
 		foreach ($all['ITEMS'] as $item)
-			$return[] = 'PROPERTY_' . $item['ID'];
+			$return[] = 'PROPERTY_PROP_' . $item['ID'];
 
 		return $return;
 	}
