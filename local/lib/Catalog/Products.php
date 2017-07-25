@@ -2,8 +2,6 @@
 
 namespace Local\Catalog;
 
-use Bitrix\Iblock\InheritedProperty\ElementValues;
-use Local\System\Debug;
 use Local\System\ExtCache;
 
 /**
@@ -31,8 +29,6 @@ class Products
 	 * @var null текущие файлы, добавленные импортом
 	 */
 	private static $issetFiles = null;
-
-	private static $summary = [];
 
 	/**
 	 * Возвращает все товары
@@ -156,31 +152,58 @@ class Products
 	/**
 	 * Основная ф-ция импорта продуктов
 	 * @param $items
+	 * @return array
 	 */
 	public static function import($items)
 	{
 		self::initFiles();
 
-		self::$summary = [
+		$res = self::getAll(true);
+		$counts = [
+			'EX' => count($res['ITEMS']),
+			'TOTAL' => 0,
 			'ADD' => 0,
-			'UPDATE' => 0,
-			'SAME' => 0,
-			'FILES' => 0,
+			'ERROR' => 0,
+			'UPDETE' => 0,
+			'NOCH' => 0,
 		];
 
+		$clearCache = false;
 		foreach ($items as $item)
 		{
+			$counts['TOTAL']++;
 			$fields = self::getIbFields($item);
 			$element = self::getByXmlId($item['XML_ID']);
-			if (!$element)
+			if ($element)
 			{
-				self::itemAdd($fields);
+				$updated = self::itemUpdate($element, $fields);
+				if ($updated)
+					$counts['UPDATE']++;
+				else
+					$counts['NOCH']++;
 			}
 			else
 			{
-				self::itemUpdate($element, $fields);
+				$newId = self::itemAdd($fields);
+				if ($newId)
+				{
+					$updated = true;
+					$counts['ADD']++;
+				}
+				else
+				{
+					$updated = false;
+					$counts['ERROR']++;
+				}
 			}
+			if ($updated)
+				$clearCache = true;
 		}
+
+		if ($clearCache)
+			self::clearCache();
+
+		return $counts;
 	}
 
 	/**
@@ -225,18 +248,21 @@ class Products
 	/**
 	 * Добавляет элемент продукт
 	 * @param $fields
+	 * @return mixed
 	 */
 	public static function itemAdd($fields)
 	{
 		$be = new \CIBlockElement();
-		$be->Add($fields);
-		self::$summary['ADD']++;
+		$id = $be->Add($fields);
+
+		return $id;
 	}
 
 	/**
 	 * Обновляет продукт
 	 * @param $old
 	 * @param $new
+	 * @return bool
 	 */
 	public static function itemUpdate($old, $new)
 	{
@@ -281,10 +307,11 @@ class Products
 				$be->Update($old['ID'], $updateFields);
 			if ($updateProperties)
 				$be->SetPropertyValuesEx($old['ID'], self::IBLOCK_ID, $updateProperties);
-			self::$summary['UPDATE']++;
+
+			return true;
 		}
-		else
-			self::$summary['SAME']++;
+
+		return false;
 	}
 
 
@@ -341,7 +368,6 @@ class Products
 				$fileInfo = \CFile::MakeFileArray($filePath);
 				$fileInfo['MODULE_ID'] = 'products';
 				$fileId = \CFile::SaveFile($fileInfo, 'products');
-				self::$summary['FILES']++;
 			}
 
 			if ($file['TYPE'] == '1')
@@ -362,7 +388,7 @@ class Products
 	 * Сравнение массивов
 	 * @param $a1
 	 * @param $a2
-	 * @return array
+	 * @return bool
 	 */
 	public static function checkArrays($a1, $a2)
 	{
@@ -376,6 +402,14 @@ class Products
 		return $cnt1 == $cnt3;
 	}
 
-
+	/**
+	 * Очищает кеш
+	 */
+	public static function clearCache()
+	{
+		$path = self::CACHE_PATH . 'getList';
+		$phpCache = new \CPHPCache();
+		$phpCache->CleanDir($path);
+	}
 }
 

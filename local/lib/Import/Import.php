@@ -2,9 +2,12 @@
 namespace Local\Import;
 use Local\Catalog\Categories;
 use Local\Catalog\Colors;
+use Local\Catalog\Communications;
 use Local\Catalog\Models;
 use Local\Catalog\Products;
+use Local\Catalog\PropEnums;
 use Local\Catalog\Props;
+use Local\System\Log;
 
 /**
  * Class Import Импорт каталога
@@ -23,16 +26,26 @@ class Import
 	private $filename = '';
 
 	/**
+	 * @var Log Лог
+	 */
+	private $_log;
+
+	/**
 	 * Старт импорта
 	 * @return bool
 	 * @throws ImportException
 	 */
 	public function start()
 	{
+		$this->_log = new Log('import/' . date('Y_m') . '.log');
+
 		$this->filename = $_SERVER['DOCUMENT_ROOT'] . self::FILENAME;
 
 		if (!file_exists($this->filename))
+		{
+			$this->log('Файл не найден');
 			throw new ImportException('Файл не найден');
+		}
 
 		try
 		{
@@ -40,6 +53,7 @@ class Import
 		}
 		catch (\Exception $e)
 		{
+			$this->log('Ошибка парсинга данных');
 			throw new ImportException('Ошибка парсинга данных');
 		}
 	}
@@ -66,15 +80,15 @@ class Import
 				$attrValues = [];
 				foreach ($item->attributes as $attr)
 					$attrValues[$attr->name] = $attr->value;
-				if ($section->tagName == 'communication')
+				if ($section->tagName == 'Связи')
 				{
 					$items[] = [
-						'PARENT_XML_ID' => $attrValues['Карточка'],
+						'NAME' => $attrValues['Карточка'],
 						'XML_ID' => $attrValues['КарточкаСвязь'],
 						'SORT' => $attrValues['Порядок'],
 					];
 				}
-				elseif ($section->tagName == 'Assortment')
+				elseif ($section->tagName == 'Ассортимент')
 				{
 					$sections = [];
 					$props = [];
@@ -94,15 +108,15 @@ class Import
 							foreach ($subItem->attributes as $attr)
 								$subAttrValues[$attr->name] = $attr->value;
 
-							if ($assortimentSection->tagName == 'Kategoria')
+							if ($assortimentSection->tagName == 'Категории')
 							{
 								$sections[] = $subAttrValues['КодКатегория'];
 							}
-							elseif ($assortimentSection->tagName == 'properties')
+							elseif ($assortimentSection->tagName == 'Свойства')
 							{
-								$props[$subAttrValues['КодСвойство']] = $subAttrValues['Значение'];
+								$props[$subAttrValues['КодСвойство']] = $subAttrValues['ЗначениеСписка'] ? $subAttrValues['ЗначениеСписка'] : $subAttrValues['Значение'];
 							}
-							elseif ($assortimentSection->tagName == 'files')
+							elseif ($assortimentSection->tagName == 'Файлы')
 							{
 								$files[] = [
 									'NAME' => $subAttrValues['ИмяФайла'],
@@ -133,24 +147,73 @@ class Import
 						'NAME' => $attrValues['Наименование'],
 						'XML_ID' => $attrValues['Код'],
 					];
-					if ($section->tagName == 'properties')
-						$fields['PROPERTY_VALUES']['TYPE'] = $attrValues['Тип'];
+					if ($section->tagName == 'Свойства')
+						$fields['PROPERTY_VALUES']['TYPE'] = $attrValues['type'];
+					if ($section->tagName == 'ЗначенияСвойств')
+					{
+						$fields['PROP'] = $attrValues['КодСвойство'];
+						$fields['XML_ID'] = $attrValues['КодЗначения'];
+					}
+					if ($section->tagName == 'Kategoria')
+						$fields['PARENT'] = $attrValues['Родитель'];
 					$items[] = $fields;
 				}
 			}
 
-			if ($section->tagName == 'Kategoria')
-				Categories::import($items);
-			elseif ($section->tagName == 'Models')
-				Models::import($items);
-			elseif ($section->tagName == 'Colors')
-				Colors::import($items);
-			elseif ($section->tagName == 'properties')
-				Props::import($items);
+			if ($section->tagName == 'Категории')
+			{
+				$result = Categories::import($items);
+				$this->logResult('Категории', $result);
+			}
+			elseif ($section->tagName == 'Модели')
+			{
+				$result = Models::import($items);
+				$this->logResult('Модели', $result);
+			}
+			elseif ($section->tagName == 'Цвета')
+			{
+				$result = Colors::import($items);
+				$this->logResult('Цвета', $result);
+			}
+			elseif ($section->tagName == 'Свойства')
+			{
+				$result = Props::import($items);
+				$this->logResult('Свойства', $result);
+			}
+			elseif ($section->tagName == 'ЗначенияСвойств')
+			{
+				$result = PropEnums::import($items);
+				$this->logResult('Значения свойств', $result);
+			}
+			/*elseif ($section->tagName == 'communication')
+			{
+				$result = Communications::import($items);
+				$this->logResult('Связи товаров', $result);
+			}
 			elseif ($section->tagName == 'Assortment')
-				Products::import($items);
+			{
+				$result = Products::import($items);
+				$this->logResult('Ассортимент', $result);
+			}*/
 		}
 
+	}
+
+	private function log($s)
+	{
+		$this->_log->writeText($s);
+	}
+
+	private function logResult($title, $result)
+	{
+		debugmessage($result);
+		$this->log($title . ': ' . $result['TOTAL']);
+		$this->log("\tВсего в файле: " . $result['TOTAL']);
+		$this->log("\tВ базе: " . $result['EX']);
+		$this->log("\tДобавлено: " . $result['ADD']);
+		$this->log("\tОшибок: " . $result['ERROR']);
+		$this->log("\tИзменено: " . $result['UPDATE']);
+		$this->log("\tБез изменений: " . $result['NOCH']);
 	}
 
 }

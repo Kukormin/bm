@@ -71,6 +71,7 @@ class Colors
 	/**
 	 * Возвращает цвет по ID
 	 * @param $id
+	 * @return mixed
 	 */
 	public static function getById($id)
 	{
@@ -81,6 +82,7 @@ class Colors
 	/**
 	 * Возвращает ID цвета по коду
 	 * @param $code
+	 * @return mixed
 	 */
 	public static function getIdByCode($code)
 	{
@@ -91,6 +93,7 @@ class Colors
 	/**
 	 * Возвращает цвет по XML_ID
 	 * @param $xmlId
+	 * @return mixed
 	 */
 	public static function getByXmlId($xmlId)
 	{
@@ -113,24 +116,55 @@ class Colors
 	/**
 	 * Импорт
 	 * @param $data
+	 * @return array
 	 */
 	public static function import($data)
 	{
-		self::getAll(true);
+		$res = self::getAll(true);
+		$counts = [
+			'EX' => count($res['ITEMS']),
+			'TOTAL' => 0,
+			'ADD' => 0,
+			'ERROR' => 0,
+			'UPDETE' => 0,
+			'NOCH' => 0,
+		];
+
 		$clearCache = false;
 		foreach ($data as $new)
 		{
+			$counts['TOTAL']++;
 			$old = self::getByXmlId($new['XML_ID']);
 			if ($old)
+			{
 				$updated = self::update($old, $new);
+				if ($updated)
+					$counts['UPDATE']++;
+				else
+					$counts['NOCH']++;
+			}
 			else
-				$updated = self::add($new);
+			{
+				$newId = self::add($new);
+				if ($newId)
+				{
+					$updated = true;
+					$counts['ADD']++;
+				}
+				else
+				{
+					$updated = false;
+					$counts['ERROR']++;
+				}
+			}
 			if ($updated)
 				$clearCache = true;
 		}
 
 		if ($clearCache)
 			self::getAll(true);
+
+		return $counts;
 	}
 
 	/**
