@@ -356,13 +356,13 @@ class Products
 		$files = [];
 		foreach ($data as $file)
 		{
-			$fileName = $file['NAME'] . '.' . $file['EXT'];
+			$fileName = $file['NAME'];
 			$filePath = $_SERVER['DOCUMENT_ROOT'] . '/upload/files/' . $fileName;
 			if (!file_exists($filePath))
 				continue;
 
 			if (self::$issetFiles[$fileName])
-				$fileId = self::$issetFiles[$file['NAME'] . '.' . $file['EXT']];
+				$fileId = self::$issetFiles[$fileName];
 			else
 			{
 				$fileInfo = \CFile::MakeFileArray($filePath);
@@ -382,7 +382,6 @@ class Products
 		return $files;
 
 	}
-
 
 	/**
 	 * Сравнение массивов

@@ -185,16 +185,16 @@ class Import
 				$result = PropEnums::import($items);
 				$this->logResult('Значения свойств', $result);
 			}
-			/*elseif ($section->tagName == 'communication')
+			elseif ($section->tagName == 'Ассортимент')
+			{
+				$result = Products::import($items);
+				$this->logResult('Ассортимент', $result);
+			}
+			elseif ($section->tagName == 'Связи')
 			{
 				$result = Communications::import($items);
 				$this->logResult('Связи товаров', $result);
 			}
-			elseif ($section->tagName == 'Assortment')
-			{
-				$result = Products::import($items);
-				$this->logResult('Ассортимент', $result);
-			}*/
 		}
 
 	}
