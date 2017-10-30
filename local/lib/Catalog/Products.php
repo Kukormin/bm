@@ -357,7 +357,7 @@ class Products
 		foreach ($data as $file)
 		{
 			$fileName = $file['NAME'];
-			$filePath = $_SERVER['DOCUMENT_ROOT'] . '/upload/files/' . $fileName;
+			$filePath = $_SERVER['DOCUMENT_ROOT'] . '/upload/import/files/' . $fileName;
 			if (!file_exists($filePath))
 				continue;
 
