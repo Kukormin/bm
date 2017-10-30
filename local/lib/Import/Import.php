@@ -224,7 +224,6 @@ class Import
 
 	private function logResult($title, $result)
 	{
-		debugmessage($result);
 		$this->log($title . ': ' . $result['TOTAL']);
 		$this->log("\tВсего в файле: " . $result['TOTAL']);
 		$this->log("\tВ базе: " . $result['EX']);
