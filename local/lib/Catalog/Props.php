@@ -17,7 +17,7 @@ class Props
 	/**
 	 * ID инфоблока
 	 */
-	const IBLOCK_ID = 4;
+	const IBLOCK_ID = 13;
 
 	/**
 	 * Возвращает все свойства товаров

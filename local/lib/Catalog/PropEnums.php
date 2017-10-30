@@ -17,7 +17,7 @@ class PropEnums
 	/**
 	 * ID инфоблока
 	 */
-	const IBLOCK_ID = 6;
+	const IBLOCK_ID = 14;
 
 	/**
 	 * Возвращает все свойства товаров

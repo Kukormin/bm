@@ -17,7 +17,7 @@ class Communications
 	/**
 	 * ID инфоблока
 	 */
-	const IBLOCK_ID = 5;
+	const IBLOCK_ID = 15;
 
 	/**
 	 * Возвращает все связи

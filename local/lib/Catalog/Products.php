@@ -13,7 +13,7 @@ class Products
 	/**
 	 * ID инфоблока
 	 */
-	const IBLOCK_ID = 1;
+	const IBLOCK_ID = 10;
 
 	/**
 	 * Время кеширования

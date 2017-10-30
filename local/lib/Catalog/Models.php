@@ -17,7 +17,7 @@ class Models
 	/**
 	 * ID инфоблока
 	 */
-	const IBLOCK_ID = 2;
+	const IBLOCK_ID = 11;
 
 	/**
 	 * Возвращает все модели

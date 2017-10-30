@@ -17,7 +17,7 @@ class Colors
 	/**
 	 * ID инфоблока
 	 */
-	const IBLOCK_ID = 3;
+	const IBLOCK_ID = 12;
 
 	/**
 	 * Возвращает все цвета
