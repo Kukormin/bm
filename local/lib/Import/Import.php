@@ -166,7 +166,7 @@ class Import
 						'XML_ID' => $attrValues['Код'],
 					];
 					if ($section->tagName == 'Свойства')
-						$fields['PROPERTY_VALUES']['TYPE'] = $attrValues['type'];
+						$fields['PROPERTY_VALUES']['TYPE'] = $attrValues['ТипЗначения'];
 					if ($section->tagName == 'ЗначенияСвойств')
 					{
 						$fields['PROP'] = $attrValues['КодСвойство'];
