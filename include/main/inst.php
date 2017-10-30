@@ -1,0 +1,1 @@
+<a href='' class='inst'><span class="icon-inst"></span></a>

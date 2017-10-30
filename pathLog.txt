@@ -1,0 +1,1 @@
+/var/www/u0373708/data/www/belmebel.lema-test.ru/bitrix/modules/sale/install/components/bitrix/sale.personal.order/templates/.default/bitrix//var/www/u0373708/data/www/belmebel.lema-test.ru/bitrix/components/bitrix/sale.personal.order/templates/.default/bitrix/
