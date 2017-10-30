@@ -18,7 +18,7 @@ class Import
 	/**
 	 * Имя файл с данными
 	 */
-	const FILENAME = '/upload/1c_import.xml';
+	const PATH = '/upload/import/';
 
 	/**
 	 * @var string Полный путь до файла с данными
@@ -39,8 +39,23 @@ class Import
 	{
 		$this->_log = new Log('import/' . date('Y_m') . '.log');
 
-		$this->filename = $_SERVER['DOCUMENT_ROOT'] . self::FILENAME;
+		$path = $_SERVER['DOCUMENT_ROOT'] . self::PATH;
 
+		// Из всех xml файлов в папке выбираем самый новый
+		$rsFiles = scandir($path);
+		$files = [];
+		foreach ($rsFiles as $filename)
+		{
+			$ext = substr($filename, -4);
+			if ($ext !== '.xml')
+				continue;
+
+			$files[] = $filename;
+		}
+		rsort($files);
+		$this->filename = $path . $files[0];
+
+		// Проверяем на наличие файла
 		if (!file_exists($this->filename))
 		{
 			$this->log('Файл не найден');
@@ -58,6 +73,9 @@ class Import
 		}
 	}
 
+	/**
+	 * Парсинг XML документа и импорт сущностей
+	 */
 	private function parse()
 	{
 		$dom = new \DomDocument('1.0', 'utf-8');
