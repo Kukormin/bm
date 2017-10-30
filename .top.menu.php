@@ -1,0 +1,39 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Акции", 
+		"/aktsii/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Покупателю", 
+		"/pokupatelyu/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Мебель оптом", 
+		"/mebel-optom/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Контакты", 
+		"/kontakty/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Справочник", 
+		"/info/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>

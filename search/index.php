@@ -1,0 +1,9 @@
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetTitle("search");
+?><?$APPLICATION->IncludeComponent(
+	"bitrix:search.page",
+	"",
+Array(),
+false
+);?><br><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

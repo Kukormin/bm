@@ -1,0 +1,156 @@
+@font-face {
+	font-family: 'Lato-Regular';
+	src: url('LatoRegular.eot');
+	src: local('☺'), url('LatoRegular.woff') format('woff'), url('LatoRegular.ttf') format('truetype'), url('LatoRegular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+    font-family: "LatoRegular-n";
+    src: url("LatoRegular-n.eot");
+    src: url("LatoRegular-n.eot?#iefix")format("embedded-opentype"),
+    url("LatoRegular-n.woff") format("woff"),
+    url(".LatoRegular-n.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'LatoBold2';
+    src: url("LatoBold.eot");
+    src: url("LatoBold.eot?#iefix")format("embedded-opentype"),
+    url("LatoBold.woff") format("woff"),
+    url("LatoBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+	font-family: 'Lato-Bold';
+	src: url('Lato-Bold.eot');
+	src: local('☺'), url('Lato-Bold.woff') format('woff'), url('Lato-Bold.ttf') format('truetype'), url('Lato-Bold.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Lato-Black';
+	src: url('Lato-Black.eot');
+	src: local('☺'), url('Lato-Black.woff') format('woff'), url('Lato-Black.ttf') format('truetype'), url('Lato-Black.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+  font-family: 'Lato-Italic';
+  src: url('Lato-Italic.eot');
+  src: local('☺'), url('Lato-Italic.woff') format('woff'), url('Lato-Italic.ttf') format('truetype'), url('Lato-Italic.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+	font-family: 'Lato-Regular';
+	src: url('Lato-Italic.eot');
+	src: local('☺'), url('Lato-Italic.woff') format('woff'), url('Lato-Italic.ttf') format('truetype'), url('Lato-Italic.svg') format('svg');
+	font-weight: normal;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'Lato-Regular';
+	src: url('Lato-Bold.eot');
+	src: local('☺'), url('Lato-Bold.woff') format('woff'), url('Lato-Bold.ttf') format('truetype'), url('Lato-Bold.svg') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+  font-family: 'info';
+  src:  url('icomoon_info.eot?cny8iu');
+  src:  url('icomoon_info.eot?cny8iu#iefix') format('embedded-opentype'),
+    url('icomoon_info.ttf?cny8iu') format('truetype'),
+    url('icomoon_info.woff?cny8iu') format('woff'),
+    url('icomoon_info.svg?cny8iu#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="iconinfo-"], [class*=" iconinfo-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'info' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+  font-family: 'icomoon';
+  src:  url('icomoon.eot?qxzylq');
+  src:  url('icomoon.eot?qxzylq#iefix') format('embedded-opentype'),
+    url('icomoon.ttf?qxzylq') format('truetype'),
+    url('icomoon.woff?qxzylq') format('woff'),
+    url('icomoon.svg?qxzylq#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fb:before {
+  content: "\e906";
+}
+.icon-inst:before {
+  content: "\e907";
+}
+.icon-tel:before {
+  content: "\e900";
+}
+.icon-conv:before {
+  content: "\e901";
+}
+.icon-search:before {
+  content: "\e902";
+}
+.icon-basket:before {
+  content: "\e903";
+}
+.icon-like:before {
+  content: "\e904";
+}
+.icon-login:before {
+  content: "\e905";
+}
+.iconinfo-sert:before {
+  content: "\e900";
+}
+.iconinfo-post:before {
+  content: "\e901";
+}
+.iconinfo-data:before {
+  content: "\e902";
+}
+.iconinfo-about:before {
+  content: "\e903";
+}
+.iconinfo-credit:before {
+  content: "\e904";
+}
+.iconinfo-buy:before {
+  content: "\e905";
+}
+.iconinfo-dis:before {
+  content: "\e906";
+}
+
